@@ -1,7 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
 // Initialize SQLite database for FaithMeet
 function getDB() {
-    $dbPath = __DIR__ . '/../data/faithmeet.db';
+    $dataDir = __DIR__ . '/../data';
+    if (!is_dir($dataDir)) { mkdir($dataDir, 0755, true); }
+    $dbPath = $dataDir . '/faithmeet.db';
     $isNew = !file_exists($dbPath);
     $db = new PDO('sqlite:' . $dbPath);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

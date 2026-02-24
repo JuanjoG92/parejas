@@ -15,8 +15,11 @@
     <Content Include="api\like.php" />
     <Content Include="api\matches.php" />
     <Content Include="api\profile.php" />
+    <Content Include="api\test.php" />
     <Content Include="deploy\nginx-parejas.conf" />
     <Content Include="deploy\setup-vps.sh" />
+    <Content Include="deploy\apply-nginx.sh" />
+    <Content Include="deploy\fix-all.sh" />
     <Content Include=".github\copilot-instructions.md" />
   </ItemGroup>
 </Project>

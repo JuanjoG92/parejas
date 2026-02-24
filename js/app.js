@@ -155,8 +155,14 @@ function handleRegister(e) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: 'register', ...data })
   })
-  .then(function(r) { return r.json(); })
-  .then(function(res) {
+  .then(function(r) {
+    if (!r.ok) { throw new Error('HTTP ' + r.status); }
+    return r.text();
+  })
+  .then(function(txt) {
+    console.log('Register response:', txt);
+    var res;
+    try { res = JSON.parse(txt); } catch(e) { showAlert('regAlert', 'Server error: ' + txt.substring(0,200), 'error'); return; }
     btn.disabled = false; btn.textContent = t('reg.btn');
     if (res.success) {
       setUser(res.user);
@@ -166,7 +172,7 @@ function handleRegister(e) {
       showAlert('regAlert', res.error || 'Error', 'error');
     }
   })
-  .catch(function() { btn.disabled = false; btn.textContent = t('reg.btn'); showAlert('regAlert', 'Connection error', 'error'); });
+  .catch(function(err) { btn.disabled = false; btn.textContent = t('reg.btn'); showAlert('regAlert', 'Error: ' + err.message, 'error'); });
 }
 
 // ===== Login =====
@@ -180,8 +186,14 @@ function handleLogin(e) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: 'login', email: form.email.value.trim(), password: form.password.value })
   })
-  .then(function(r) { return r.json(); })
-  .then(function(res) {
+  .then(function(r) {
+    if (!r.ok) { throw new Error('HTTP ' + r.status); }
+    return r.text();
+  })
+  .then(function(txt) {
+    console.log('Login response:', txt);
+    var res;
+    try { res = JSON.parse(txt); } catch(e) { showAlert('loginAlert', 'Server error: ' + txt.substring(0,200), 'error'); return; }
     btn.disabled = false; btn.textContent = t('login.btn');
     if (res.success) {
       setUser(res.user);
@@ -191,7 +203,7 @@ function handleLogin(e) {
       showAlert('loginAlert', res.error || 'Error', 'error');
     }
   })
-  .catch(function() { btn.disabled = false; btn.textContent = t('login.btn'); showAlert('loginAlert', 'Connection error', 'error'); });
+  .catch(function(err) { btn.disabled = false; btn.textContent = t('login.btn'); showAlert('loginAlert', 'Error: ' + err.message, 'error'); });
 }
 
 function showAlert(id, msg, type) {

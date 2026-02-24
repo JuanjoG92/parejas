@@ -5,9 +5,15 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 
-require_once __DIR__ . '/init-db.php';
-$db = getDB();
+try {
+    require_once __DIR__ . '/init-db.php';
+    $db = getDB();
+} catch (Exception $e) {
+    echo json_encode(['error' => 'DB init failed: ' . $e->getMessage()]);
+    exit;
+}
 $input = json_decode(file_get_contents('php://input'), true);
+if (!$input) { echo json_encode(['error' => 'Invalid JSON input']); exit; }
 $action = $input['action'] ?? '';
 
 if ($action === 'register') {
