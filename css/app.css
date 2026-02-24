@@ -339,6 +339,33 @@ body {
 }
 .match-overlay .btn { margin-top: 1rem; }
 
+/* ===== Checkbox Tags ===== */
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
+.checkbox-group label {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.3rem 0.7rem; border-radius: 20px; font-size: 0.8rem;
+  background: var(--bg-alt); border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.2s; user-select: none;
+}
+.checkbox-group label:hover { border-color: var(--primary-light); }
+.checkbox-group input[type=checkbox] { display: none; }
+.checkbox-group label:has(input:checked) {
+  background: var(--primary); border-color: var(--primary); color: #fff;
+}
+.section-label {
+  font-weight: 600; font-size: 0.95rem; margin: 1rem 0 0.3rem;
+  color: var(--text); display: flex; align-items: center; gap: 0.4rem;
+}
+.section-label i { color: var(--primary); font-size: 0.85rem; }
+.discover-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem; }
+.discover-tag {
+  display: inline-block; padding: 0.15rem 0.5rem; border-radius: 12px;
+  font-size: 0.7rem; font-weight: 500;
+}
+.discover-tag.trait { background: rgba(201,81,91,0.12); color: var(--primary); }
+.discover-tag.sport { background: rgba(212,162,76,0.15); color: var(--secondary); }
+.discover-tag.activity { background: rgba(107,158,111,0.15); color: var(--accent); }
+
 /* ===== Photo Upload ===== */
 .photo-upload-wrap { position: relative; display: inline-block; cursor: pointer; }
 .photo-upload-wrap input[type=file] { display: none; }

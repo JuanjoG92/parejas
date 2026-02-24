@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 try {
     require_once __DIR__ . '/init-db.php';
     $db = getDB();
+    ensureColumns($db);
 } catch (Exception $e) {
     echo json_encode(['error' => 'DB init failed: ' . $e->getMessage()]);
     exit;
@@ -24,6 +25,11 @@ if ($action === 'register') {
     $gender = $input['gender'] ?? '';
     $country = $input['country'] ?? '';
     $denomination = $input['denomination'] ?? '';
+    $traits = $input['traits'] ?? '';
+    $sports = $input['sports'] ?? '';
+    $activities = $input['activities'] ?? '';
+    $bio = trim($input['bio'] ?? '');
+    $lookingFor = trim($input['looking_for'] ?? '');
 
     if (!$name || !$email || !$password || !$age || !$gender || !$country) {
         echo json_encode(['error' => 'All fields required']); exit;
@@ -37,14 +43,14 @@ if ($action === 'register') {
     $hash = password_hash($password, PASSWORD_DEFAULT);
     $token = bin2hex(random_bytes(32));
 
-    $stmt = $db->prepare("INSERT INTO users (name,email,password,age,gender,country,denomination,token) VALUES (?,?,?,?,?,?,?,?)");
-    $stmt->execute([$name, $email, $hash, $age, $gender, $country, $denomination, $token]);
+    $stmt = $db->prepare("INSERT INTO users (name,email,password,age,gender,country,denomination,traits,sports,activities,bio,looking_for,token) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    $stmt->execute([$name, $email, $hash, $age, $gender, $country, $denomination, $traits, $sports, $activities, $bio, $lookingFor, $token]);
     $userId = $db->lastInsertId();
 
     echo json_encode([
         'success' => true,
         'token' => $token,
-        'user' => ['id'=>$userId,'name'=>$name,'email'=>$email,'age'=>$age,'gender'=>$gender,'country'=>$country,'denomination'=>$denomination,'bio'=>'','looking_for'=>'','photo'=>'']
+        'user' => ['id'=>$userId,'name'=>$name,'email'=>$email,'age'=>$age,'gender'=>$gender,'country'=>$country,'denomination'=>$denomination,'bio'=>$bio,'looking_for'=>$lookingFor,'photo'=>'','traits'=>$traits,'sports'=>$sports,'activities'=>$activities]
     ]);
 }
 elseif ($action === 'login') {
@@ -65,7 +71,7 @@ elseif ($action === 'login') {
     echo json_encode([
         'success' => true,
         'token' => $token,
-        'user' => ['id'=>$user['id'],'name'=>$user['name'],'email'=>$user['email'],'age'=>$user['age'],'gender'=>$user['gender'],'country'=>$user['country'],'denomination'=>$user['denomination'],'bio'=>$user['bio'],'looking_for'=>$user['looking_for'],'photo'=>$user['photo']]
+        'user' => ['id'=>$user['id'],'name'=>$user['name'],'email'=>$user['email'],'age'=>$user['age'],'gender'=>$user['gender'],'country'=>$user['country'],'denomination'=>$user['denomination'],'bio'=>$user['bio'],'looking_for'=>$user['looking_for'],'photo'=>$user['photo'],'traits'=>$user['traits']??'','sports'=>$user['sports']??'','activities'=>$user['activities']??'']
     ]);
 }
 else {

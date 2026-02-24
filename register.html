@@ -18,7 +18,7 @@
         </a>
       </div>
       <h2 data-i18n="reg.title">Crear cuenta</h2>
-      <p class="subtitle" data-i18n="reg.subtitle">Empezá a encontrar tu pareja cristiana</p>
+      <p class="subtitle" data-i18n="reg.subtitle">Conectá con gente cristiana rural que comparta tu fe</p>
 
       <div id="regAlert" class="alert"></div>
 
@@ -100,8 +100,74 @@
             <option value="No denominacional">No denominacional</option>
             <option value="Otra">Otra</option>
           </select>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center" data-i18n="reg.btn">Crear mi cuenta</button>
+          </div>
+
+          <div class="section-label"><i class="fas fa-heart"></i> <span data-i18n="reg.traits">Mis rasgos de carácter</span></div>
+          <div class="checkbox-group" id="traitsGroup">
+            <label><input type="checkbox" name="traits" value="Leal"><span>Leal</span></label>
+            <label><input type="checkbox" name="traits" value="Sincero/a"><span>Sincero/a</span></label>
+            <label><input type="checkbox" name="traits" value="Honesto/a"><span>Honesto/a</span></label>
+            <label><input type="checkbox" name="traits" value="Trabajador/a"><span>Trabajador/a</span></label>
+            <label><input type="checkbox" name="traits" value="Paciente"><span>Paciente</span></label>
+            <label><input type="checkbox" name="traits" value="Cariñoso/a"><span>Cariñoso/a</span></label>
+            <label><input type="checkbox" name="traits" value="Respetuoso/a"><span>Respetuoso/a</span></label>
+            <label><input type="checkbox" name="traits" value="Generoso/a"><span>Generoso/a</span></label>
+            <label><input type="checkbox" name="traits" value="Humilde"><span>Humilde</span></label>
+            <label><input type="checkbox" name="traits" value="Responsable"><span>Responsable</span></label>
+            <label><input type="checkbox" name="traits" value="Comprensivo/a"><span>Comprensivo/a</span></label>
+            <label><input type="checkbox" name="traits" value="Alegre"><span>Alegre</span></label>
+            <label><input type="checkbox" name="traits" value="Protector/a"><span>Protector/a</span></label>
+            <label><input type="checkbox" name="traits" value="Amable"><span>Amable</span></label>
+            <label><input type="checkbox" name="traits" value="Perseverante"><span>Perseverante</span></label>
+            <label><input type="checkbox" name="traits" value="Fiel"><span>Fiel</span></label>
+            <label><input type="checkbox" name="traits" value="Valiente"><span>Valiente</span></label>
+            <label><input type="checkbox" name="traits" value="Empático/a"><span>Empático/a</span></label>
+            <label><input type="checkbox" name="traits" value="Servicial"><span>Servicial</span></label>
+            <label><input type="checkbox" name="traits" value="Familiar"><span>Familiar</span></label>
+          </div>
+
+          <div class="section-label"><i class="fas fa-futbol"></i> <span data-i18n="reg.sports">Deportes que me gustan</span></div>
+          <div class="checkbox-group" id="sportsGroup">
+            <label><input type="checkbox" name="sports" value="Fútbol"><span>Fútbol</span></label>
+            <label><input type="checkbox" name="sports" value="Béisbol"><span>Béisbol</span></label>
+            <label><input type="checkbox" name="sports" value="Básquetbol"><span>Básquetbol</span></label>
+            <label><input type="checkbox" name="sports" value="Voleibol"><span>Voleibol</span></label>
+            <label><input type="checkbox" name="sports" value="Ciclismo"><span>Ciclismo</span></label>
+            <label><input type="checkbox" name="sports" value="Natación"><span>Natación</span></label>
+            <label><input type="checkbox" name="sports" value="Equitación"><span>Equitación</span></label>
+            <label><input type="checkbox" name="sports" value="Rodeo"><span>Rodeo</span></label>
+            <label><input type="checkbox" name="sports" value="Atletismo"><span>Atletismo</span></label>
+            <label><input type="checkbox" name="sports" value="Boxeo"><span>Boxeo</span></label>
+            <label><input type="checkbox" name="sports" value="Softbol"><span>Softbol</span></label>
+            <label><input type="checkbox" name="sports" value="Caminata"><span>Caminata</span></label>
+          </div>
+
+          <div class="section-label"><i class="fas fa-tree"></i> <span data-i18n="reg.activities">Actividades al aire libre</span></div>
+          <div class="checkbox-group" id="activitiesGroup">
+            <label><input type="checkbox" name="activities" value="Pesca"><span>Pesca</span></label>
+            <label><input type="checkbox" name="activities" value="Caza"><span>Caza</span></label>
+            <label><input type="checkbox" name="activities" value="Agricultura"><span>Agricultura</span></label>
+            <label><input type="checkbox" name="activities" value="Jardinería"><span>Jardinería</span></label>
+            <label><input type="checkbox" name="activities" value="Camping"><span>Camping</span></label>
+            <label><input type="checkbox" name="activities" value="Senderismo"><span>Senderismo</span></label>
+            <label><input type="checkbox" name="activities" value="Crianza de animales"><span>Crianza de animales</span></label>
+            <label><input type="checkbox" name="activities" value="Cocinar al aire libre"><span>Cocinar al aire libre</span></label>
+            <label><input type="checkbox" name="activities" value="Trabajo en madera"><span>Trabajo en madera</span></label>
+            <label><input type="checkbox" name="activities" value="Apicultura"><span>Apicultura</span></label>
+            <label><input type="checkbox" name="activities" value="Montar a caballo"><span>Montar a caballo</span></label>
+            <label><input type="checkbox" name="activities" value="Ordeño"><span>Ordeño</span></label>
+          </div>
+
+          <div class="form-group" style="margin-top:1rem">
+            <label data-i18n="reg.bio">Cuéntanos sobre ti</label>
+            <textarea name="bio" rows="3" placeholder="¿Quién sos? ¿Qué te apasiona? Contá un poco..." data-i18n-placeholder="reg.bioHint"></textarea>
+          </div>
+          <div class="form-group">
+            <label data-i18n="reg.lookingFor">¿Qué buscás en una pareja?</label>
+            <textarea name="looking_for" rows="3" placeholder="Describí cómo sería tu pareja ideal..." data-i18n-placeholder="reg.lookingHint"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center" data-i18n="reg.btn">Crear mi cuenta</button>
       </form>
 
       <p class="auth-link"><span data-i18n="reg.hasAccount">¿Ya tenés cuenta?</span> <a href="login.html" data-i18n="reg.login">Iniciá sesión</a></p>

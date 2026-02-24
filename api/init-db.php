@@ -61,3 +61,11 @@ function getDB() {
     }
     return $db;
 }
+
+// Ensure new columns exist (runs every time, safe for existing DBs)
+function ensureColumns($db) {
+    $cols = ['traits','sports','activities'];
+    foreach ($cols as $col) {
+        try { $db->exec("ALTER TABLE users ADD COLUMN $col TEXT DEFAULT ''"); } catch (Exception $e) {}
+    }
+}

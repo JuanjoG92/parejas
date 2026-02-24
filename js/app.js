@@ -33,7 +33,11 @@ var L = {
     'prof.edit':'Editar perfil','prof.bio':'Sobre mí','prof.lookingFor':'Qué busco','prof.save':'Guardar cambios','prof.saved':'¡Perfil guardado!',
     'filter.allCountries':'Todos los países','filter.allDenoms':'Todas','filter.ageMin':'Edad mín','filter.ageMax':'Edad máx',
     'chat.placeholder':'Escribí un mensaje...','chat.empty':'Enviá el primer mensaje 💬','chat.back':'Volver',
-    'photo.uploading':'Subiendo foto...','photo.done':'¡Foto actualizada!','photo.error':'Error al subir foto'
+    'photo.uploading':'Subiendo foto...','photo.done':'¡Foto actualizada!','photo.error':'Error al subir foto',
+    'reg.traits':'Mis rasgos de carácter','reg.sports':'Deportes que me gustan','reg.activities':'Actividades al aire libre',
+    'reg.bio':'Cuéntanos sobre ti','reg.lookingFor':'¿Qué buscás en una pareja?',
+    'reg.bioHint':'¿Quién sos? ¿Qué te apasiona? Contá un poco...','reg.lookingHint':'Describí cómo sería tu pareja ideal...',
+    'reg.subtitle':'Conectá con gente cristiana rural que comparta tu fe'
   },
   en: {
     'nav.login':'Log In','nav.register':'Sign Up',
@@ -66,7 +70,11 @@ var L = {
     'prof.edit':'Edit profile','prof.bio':'About me','prof.lookingFor':'What I\'m looking for','prof.save':'Save changes','prof.saved':'Profile saved!',
     'filter.allCountries':'All countries','filter.allDenoms':'All','filter.ageMin':'Min age','filter.ageMax':'Max age',
     'chat.placeholder':'Write a message...','chat.empty':'Send the first message 💬','chat.back':'Back',
-    'photo.uploading':'Uploading photo...','photo.done':'Photo updated!','photo.error':'Error uploading photo'
+    'photo.uploading':'Uploading photo...','photo.done':'Photo updated!','photo.error':'Error uploading photo',
+    'reg.traits':'My character traits','reg.sports':'Sports I like','reg.activities':'Outdoor activities',
+    'reg.bio':'Tell us about yourself','reg.lookingFor':'What do you want in a partner?',
+    'reg.bioHint':'Who are you? What are you passionate about?','reg.lookingHint':'Describe your ideal partner...',
+    'reg.subtitle':'Connect with rural Christian people who share your faith'
   },
   pt: {
     'nav.login':'Entrar','nav.register':'Cadastrar',
@@ -99,7 +107,11 @@ var L = {
     'prof.edit':'Editar perfil','prof.bio':'Sobre mim','prof.lookingFor':'O que busco','prof.save':'Salvar','prof.saved':'Perfil salvo!',
     'filter.allCountries':'Todos os países','filter.allDenoms':'Todas','filter.ageMin':'Idade mín','filter.ageMax':'Idade máx',
     'chat.placeholder':'Escreva uma mensagem...','chat.empty':'Envie a primeira mensagem 💬','chat.back':'Voltar',
-    'photo.uploading':'Enviando foto...','photo.done':'Foto atualizada!','photo.error':'Erro ao enviar foto'
+    'photo.uploading':'Enviando foto...','photo.done':'Foto atualizada!','photo.error':'Erro ao enviar foto',
+    'reg.traits':'Meus traços de caráter','reg.sports':'Esportes que eu gosto','reg.activities':'Atividades ao ar livre',
+    'reg.bio':'Conte-nos sobre você','reg.lookingFor':'O que você busca em um parceiro?',
+    'reg.bioHint':'Quem é você? O que te apaixona?','reg.lookingHint':'Descreva seu parceiro ideal...',
+    'reg.subtitle':'Conecte-se com cristãos rurais que compartilham sua fé'
   }
 };
 
@@ -141,6 +153,32 @@ function requireAuth() {
   return true;
 }
 
+// ===== Checkbox helpers =====
+function getChecked(name) {
+  var vals = [];
+  document.querySelectorAll('input[name="' + name + '"]:checked').forEach(function(cb) { vals.push(cb.value); });
+  return vals.join(',');
+}
+function getCheckedById(id) {
+  var vals = [];
+  var el = document.getElementById(id);
+  if (!el) return '';
+  el.querySelectorAll('input[type=checkbox]:checked').forEach(function(cb) { vals.push(cb.value); });
+  return vals.join(',');
+}
+function setCheckedById(id, csv) {
+  var el = document.getElementById(id);
+  if (!el || !csv) return;
+  var vals = csv.split(',');
+  el.querySelectorAll('input[type=checkbox]').forEach(function(cb) {
+    cb.checked = vals.indexOf(cb.value) !== -1;
+  });
+}
+function renderTags(csv, cls) {
+  if (!csv) return '';
+  return csv.split(',').map(function(v) { return '<span class="discover-tag ' + cls + '">' + v.trim() + '</span>'; }).join('');
+}
+
 // ===== Register =====
 function handleRegister(e) {
   e.preventDefault();
@@ -161,7 +199,12 @@ function handleRegister(e) {
       age: parseInt(fd.get('age')) || 0,
       gender: fd.get('gender') || '',
       country: fd.get('country') || '',
-      denomination: fd.get('denomination') || ''
+      denomination: fd.get('denomination') || '',
+      traits: getChecked('traits'),
+      sports: getChecked('sports'),
+      activities: getChecked('activities'),
+      bio: (fd.get('bio') || '').trim(),
+      looking_for: (fd.get('looking_for') || '').trim()
     };
     var btn = form.querySelector('button[type=submit]');
     btn.disabled = true;
@@ -289,6 +332,8 @@ function showCurrentProfile() {
     + '<div class="discover-detail"><i class="fas fa-map-marker-alt"></i> ' + p.country + '</div>'
     + '<div class="discover-detail"><i class="fas fa-church"></i> ' + (p.denomination || 'Cristiano/a') + '</div>'
     + (p.bio ? '<div class="discover-detail" style="margin-top:0.5rem;opacity:0.8">' + p.bio + '</div>' : '')
+    + (p.looking_for ? '<div class="discover-detail" style="opacity:0.7;font-style:italic"><i class="fas fa-search-heart"></i> ' + p.looking_for + '</div>' : '')
+    + '<div class="discover-tags">' + renderTags(p.traits, 'trait') + renderTags(p.sports, 'sport') + renderTags(p.activities, 'activity') + '</div>'
     + '</div></div>'
     + '<div class="discover-actions">'
     + '<button class="action-btn pass-btn" onclick="actionPass()"><i class="fas fa-times"></i></button>'
@@ -388,6 +433,9 @@ function loadProfile() {
     if (avatarEl) avatarEl.style.display = 'none';
     if (placeholderEl) placeholderEl.style.display = 'flex';
   }
+  setCheckedById('profTraits', user.traits || '');
+  setCheckedById('profSports', user.sports || '');
+  setCheckedById('profActivities', user.activities || '');
 }
 
 function handleProfileSave(e) {
@@ -401,7 +449,10 @@ function handleProfileSave(e) {
     bio: document.getElementById('profBio').value,
     looking_for: document.getElementById('profLooking').value,
     denomination: document.getElementById('profDenom').value,
-    country: document.getElementById('profCountry').value
+    country: document.getElementById('profCountry').value,
+    traits: getCheckedById('profTraits'),
+    sports: getCheckedById('profSports'),
+    activities: getCheckedById('profActivities')
   };
   fetch('api/profile.php', {
     method: 'POST',
@@ -412,7 +463,7 @@ function handleProfileSave(e) {
   .then(function(res) {
     if (res.success) {
       var u = getUser();
-      Object.assign(u, { name: data.name, bio: data.bio, looking_for: data.looking_for, denomination: data.denomination, country: data.country });
+      Object.assign(u, { name: data.name, bio: data.bio, looking_for: data.looking_for, denomination: data.denomination, country: data.country, traits: data.traits, sports: data.sports, activities: data.activities });
       setUser(u);
       showAlert('profAlert', t('prof.saved'), 'success');
     }

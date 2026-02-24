@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 
 require_once __DIR__ . '/init-db.php';
 $db = getDB();
+ensureColumns($db);
 
 $userId = intval($_GET['user_id'] ?? 0);
 $token = $_GET['token'] ?? '';
