@@ -1,6 +1,8 @@
-<Project>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <DefaultTargets>Build</DefaultTargets>
+    <ProjectGuid>{B3E7A1D2-4F8C-4D6E-9A5B-1C2D3E4F5A6B}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <OutputPath>.</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="index.html" />
@@ -15,11 +17,8 @@
     <Content Include="api\like.php" />
     <Content Include="api\matches.php" />
     <Content Include="api\profile.php" />
-    <Content Include="api\test.php" />
-    <Content Include="deploy\nginx-parejas.conf" />
-    <Content Include="deploy\setup-vps.sh" />
-    <Content Include="deploy\apply-nginx.sh" />
-    <Content Include="deploy\fix-all.sh" />
+    <Content Include="api\upload.php" />
+    <Content Include="api\chat.php" />
     <Content Include=".github\copilot-instructions.md" />
   </ItemGroup>
 </Project>
