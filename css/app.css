@@ -339,6 +339,82 @@ body {
 }
 .match-overlay .btn { margin-top: 1rem; }
 
+/* ===== Photo Upload ===== */
+.photo-upload-wrap { position: relative; display: inline-block; cursor: pointer; }
+.photo-upload-wrap input[type=file] { display: none; }
+.photo-upload-btn {
+  position: absolute; bottom: 4px; right: 4px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--primary); color: #fff; border: 2px solid var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; cursor: pointer; transition: background 0.3s;
+}
+.photo-upload-btn:hover { background: var(--primary-dark); }
+
+/* ===== Discover Filters ===== */
+.discover-filters {
+  display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 1rem; max-width: 600px; margin-left: auto; margin-right: auto;
+}
+.discover-filters select, .discover-filters input {
+  padding: 0.4rem 0.6rem; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text); font-size: 0.8rem;
+  font-family: inherit;
+}
+.discover-filters .btn { padding: 0.4rem 1rem; font-size: 0.8rem; }
+
+/* ===== Chat ===== */
+.chat-container { max-width: 700px; margin: 0 auto; height: calc(100vh - 140px); display: flex; flex-direction: column; }
+.chat-header {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.75rem 1rem; background: var(--surface); border-radius: var(--radius) var(--radius) 0 0;
+  border: 1px solid var(--border); border-bottom: none;
+}
+.chat-header img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.chat-header h3 { font-size: 1rem; font-weight: 600; }
+.chat-back { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.1rem; padding: 0.25rem; }
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 1rem;
+  background: var(--bg-alt); border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.chat-bubble {
+  max-width: 75%; padding: 0.6rem 0.9rem; border-radius: 16px;
+  font-size: 0.9rem; line-height: 1.4; word-wrap: break-word;
+}
+.chat-bubble.mine {
+  align-self: flex-end; background: var(--primary); color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.chat-bubble.theirs {
+  align-self: flex-start; background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-bottom-left-radius: 4px;
+}
+.chat-bubble .chat-time {
+  display: block; font-size: 0.65rem; opacity: 0.6; margin-top: 2px; text-align: right;
+}
+.chat-input-bar {
+  display: flex; gap: 0.5rem; padding: 0.75rem;
+  background: var(--surface); border-radius: 0 0 var(--radius) var(--radius);
+  border: 1px solid var(--border); border-top: none;
+}
+.chat-input-bar input {
+  flex: 1; padding: 0.6rem 0.9rem; border-radius: 20px;
+  border: 1px solid var(--border); background: var(--bg);
+  font-size: 0.9rem; font-family: inherit; color: var(--text);
+}
+.chat-input-bar button {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--primary); color: #fff; border: none;
+  cursor: pointer; font-size: 1rem; transition: background 0.3s;
+  display: flex; align-items: center; justify-content: center;
+}
+.chat-input-bar button:hover { background: var(--primary-dark); }
+.chat-empty {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary); font-size: 0.9rem; opacity: 0.6;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .nav-actions { display: none; position: absolute; top: 64px; left: 0; width: 100%; background: var(--surface); padding: 1rem; flex-direction: column; border-bottom: 1px solid var(--border); }
@@ -358,6 +434,9 @@ body {
   .app-sidebar { width: 100%; height: 60px; flex-direction: row; justify-content: space-around; position: fixed; bottom: 0; top: auto; border-right: none; border-top: 1px solid var(--border); }
   .app-main { margin-left: 0; padding-bottom: 80px; }
   .discover-photo { height: 400px; }
+  .chat-container { height: calc(100vh - 200px); }
+  .discover-filters { gap: 0.4rem; }
+  .discover-filters select, .discover-filters input { font-size: 0.75rem; }
 }
 @media (max-width: 480px) {
   .hero-text h1 { font-size: 1.8rem; }

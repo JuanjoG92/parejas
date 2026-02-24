@@ -17,7 +17,7 @@ $auth->execute([$userId, $token]);
 if (!$auth->fetch()) { echo json_encode(['error'=>'Invalid token']); exit; }
 
 $stmt = $db->prepare("
-    SELECT u.id, u.name, u.age, u.country, u.denomination, u.bio, u.photo
+    SELECT m.id as match_id, u.id, u.name, u.age, u.country, u.denomination, u.bio, u.photo
     FROM matches m
     JOIN users u ON (
         (m.user1_id = ? AND u.id = m.user2_id) OR

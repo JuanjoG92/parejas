@@ -19,15 +19,31 @@ if (!$user) { echo json_encode(['error'=>'Invalid token']); exit; }
 
 // Get profiles: opposite gender, not self, not already liked/passed
 $opposite = $user['gender'] === 'male' ? 'female' : 'male';
+
+$where = "id != ? AND gender = ? AND id NOT IN (SELECT target_id FROM likes WHERE user_id = ?)";
+$params = [$userId, $opposite, $userId];
+
+// Optional filters
+$country = $_GET['country'] ?? '';
+if ($country) { $where .= " AND country = ?"; $params[] = $country; }
+
+$ageMin = intval($_GET['age_min'] ?? 0);
+if ($ageMin > 0) { $where .= " AND age >= ?"; $params[] = $ageMin; }
+
+$ageMax = intval($_GET['age_max'] ?? 0);
+if ($ageMax > 0) { $where .= " AND age <= ?"; $params[] = $ageMax; }
+
+$denom = $_GET['denomination'] ?? '';
+if ($denom) { $where .= " AND denomination = ?"; $params[] = $denom; }
+
 $stmt = $db->prepare("
     SELECT id, name, age, country, denomination, bio, photo
     FROM users
-    WHERE id != ? AND gender = ?
-      AND id NOT IN (SELECT target_id FROM likes WHERE user_id = ?)
+    WHERE $where
     ORDER BY RANDOM()
     LIMIT 20
 ");
-$stmt->execute([$userId, $opposite, $userId]);
+$stmt->execute($params);
 $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 echo json_encode(['profiles' => $profiles]);

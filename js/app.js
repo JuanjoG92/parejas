@@ -1,4 +1,4 @@
-﻿// ===== FaithMeet - Main JS =====
+// ===== FaithMeet - Main JS =====
 
 // ===== i18n =====
 var L = {
@@ -30,7 +30,10 @@ var L = {
     'app.discover':'Descubrir','app.matches':'Matches','app.profile':'Perfil','app.logout':'Salir',
     'disc.empty':'No hay más perfiles por ahora. ¡Volvé más tarde!',
     'match.title':'¡Es un Match!','match.msg':'Ambos se gustaron. ¡Pueden empezar a conversar!','match.ok':'¡Genial!',
-    'prof.edit':'Editar perfil','prof.bio':'Sobre mí','prof.lookingFor':'Qué busco','prof.save':'Guardar cambios','prof.saved':'¡Perfil guardado!'
+    'prof.edit':'Editar perfil','prof.bio':'Sobre mí','prof.lookingFor':'Qué busco','prof.save':'Guardar cambios','prof.saved':'¡Perfil guardado!',
+    'filter.allCountries':'Todos los países','filter.allDenoms':'Todas','filter.ageMin':'Edad mín','filter.ageMax':'Edad máx',
+    'chat.placeholder':'Escribí un mensaje...','chat.empty':'Enviá el primer mensaje 💬','chat.back':'Volver',
+    'photo.uploading':'Subiendo foto...','photo.done':'¡Foto actualizada!','photo.error':'Error al subir foto'
   },
   en: {
     'nav.login':'Log In','nav.register':'Sign Up',
@@ -60,7 +63,10 @@ var L = {
     'app.discover':'Discover','app.matches':'Matches','app.profile':'Profile','app.logout':'Logout',
     'disc.empty':'No more profiles right now. Come back later!',
     'match.title':'It\'s a Match!','match.msg':'You both liked each other. Start chatting!','match.ok':'Awesome!',
-    'prof.edit':'Edit profile','prof.bio':'About me','prof.lookingFor':'What I\'m looking for','prof.save':'Save changes','prof.saved':'Profile saved!'
+    'prof.edit':'Edit profile','prof.bio':'About me','prof.lookingFor':'What I\'m looking for','prof.save':'Save changes','prof.saved':'Profile saved!',
+    'filter.allCountries':'All countries','filter.allDenoms':'All','filter.ageMin':'Min age','filter.ageMax':'Max age',
+    'chat.placeholder':'Write a message...','chat.empty':'Send the first message 💬','chat.back':'Back',
+    'photo.uploading':'Uploading photo...','photo.done':'Photo updated!','photo.error':'Error uploading photo'
   },
   pt: {
     'nav.login':'Entrar','nav.register':'Cadastrar',
@@ -90,7 +96,10 @@ var L = {
     'app.discover':'Descobrir','app.matches':'Matches','app.profile':'Perfil','app.logout':'Sair',
     'disc.empty':'Não há mais perfis no momento. Volte mais tarde!',
     'match.title':'É um Match!','match.msg':'Vocês se curtiram. Comecem a conversar!','match.ok':'Incrível!',
-    'prof.edit':'Editar perfil','prof.bio':'Sobre mim','prof.lookingFor':'O que busco','prof.save':'Salvar','prof.saved':'Perfil salvo!'
+    'prof.edit':'Editar perfil','prof.bio':'Sobre mim','prof.lookingFor':'O que busco','prof.save':'Salvar','prof.saved':'Perfil salvo!',
+    'filter.allCountries':'Todos os países','filter.allDenoms':'Todas','filter.ageMin':'Idade mín','filter.ageMax':'Idade máx',
+    'chat.placeholder':'Escreva uma mensagem...','chat.empty':'Envie a primeira mensagem 💬','chat.back':'Voltar',
+    'photo.uploading':'Enviando foto...','photo.done':'Foto atualizada!','photo.error':'Erro ao enviar foto'
   }
 };
 
@@ -238,10 +247,21 @@ function showAlert(id, msg, type) {
 var discoverProfiles = [];
 var discoverIndex = 0;
 
+function applyFilters() { loadDiscover(); }
+
 function loadDiscover() {
   var user = getUser();
   if (!user) return;
-  fetch('api/discover.php?user_id=' + user.id + '&token=' + localStorage.getItem('fm_token'))
+  var url = 'api/discover.php?user_id=' + user.id + '&token=' + localStorage.getItem('fm_token');
+  var fc = document.getElementById('filterCountry');
+  var fam = document.getElementById('filterAgeMin');
+  var fax = document.getElementById('filterAgeMax');
+  var fd = document.getElementById('filterDenom');
+  if (fc && fc.value) url += '&country=' + encodeURIComponent(fc.value);
+  if (fam && fam.value) url += '&age_min=' + fam.value;
+  if (fax && fax.value) url += '&age_max=' + fax.value;
+  if (fd && fd.value) url += '&denomination=' + encodeURIComponent(fd.value);
+  fetch(url)
   .then(function(r) { return r.json(); })
   .then(function(res) {
     if (res.profiles) {
@@ -331,6 +351,7 @@ function loadMatches() {
       var photo = m.photo || 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop';
       var card = document.createElement('div');
       card.className = 'match-card';
+      card.onclick = function() { openChat(m.match_id, m); };
       card.innerHTML = '<img src="' + photo + '" alt="' + m.name + '">'
         + '<div class="match-card-info"><h4>' + m.name + ', ' + m.age + '</h4>'
         + '<p><i class="fas fa-map-marker-alt"></i> ' + m.country + '</p>'
@@ -351,12 +372,22 @@ function loadProfile() {
   var lookingEl = document.getElementById('profLooking');
   var denomEl = document.getElementById('profDenom');
   var countryEl = document.getElementById('profCountry');
+  var avatarEl = document.getElementById('profAvatar');
+  var placeholderEl = document.getElementById('profAvatarPlaceholder');
   if (nameEl) nameEl.value = user.name || '';
   if (emailEl) emailEl.value = user.email || '';
   if (bioEl) bioEl.value = user.bio || '';
   if (lookingEl) lookingEl.value = user.looking_for || '';
   if (denomEl) denomEl.value = user.denomination || '';
   if (countryEl) countryEl.value = user.country || '';
+  if (user.photo && avatarEl) {
+    avatarEl.src = user.photo;
+    avatarEl.style.display = 'block';
+    if (placeholderEl) placeholderEl.style.display = 'none';
+  } else {
+    if (avatarEl) avatarEl.style.display = 'none';
+    if (placeholderEl) placeholderEl.style.display = 'flex';
+  }
 }
 
 function handleProfileSave(e) {
@@ -400,4 +431,99 @@ function showAppSection(section) {
   if (section === 'discover') loadDiscover();
   if (section === 'matches') loadMatches();
   if (section === 'profile') loadProfile();
+  if (section !== 'chat' && chatPollTimer) { clearInterval(chatPollTimer); chatPollTimer = null; }
+}
+
+// ===== Photo Upload =====
+function uploadPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  var user = getUser();
+  if (!user) return;
+  var fd = new FormData();
+  fd.append('photo', input.files[0]);
+  fd.append('user_id', user.id);
+  fd.append('token', localStorage.getItem('fm_token'));
+  showAlert('photoAlert', t('photo.uploading'), 'success');
+  fetch('api/upload.php', { method: 'POST', body: fd })
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    if (res.success) {
+      var u = getUser();
+      u.photo = res.photo;
+      setUser(u);
+      showAlert('photoAlert', t('photo.done'), 'success');
+      loadProfile();
+    } else {
+      showAlert('photoAlert', res.error || t('photo.error'), 'error');
+    }
+  })
+  .catch(function() { showAlert('photoAlert', t('photo.error'), 'error'); });
+}
+
+// ===== Chat =====
+var chatPollTimer = null;
+var chatLastId = 0;
+
+function openChat(matchId, matchUser) {
+  chatLastId = 0;
+  if (chatPollTimer) { clearInterval(chatPollTimer); chatPollTimer = null; }
+  var container = document.getElementById('chatContainer');
+  if (!container) return;
+  var photo = matchUser.photo || 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop';
+  container.innerHTML = '<div class="chat-header">'
+    + '<button class="chat-back" onclick="showAppSection(\'matches\')"><i class="fas fa-arrow-left"></i></button>'
+    + '<img src="' + photo + '" alt="' + matchUser.name + '">'
+    + '<h3>' + matchUser.name + '</h3></div>'
+    + '<div class="chat-messages" id="chatMessages"><div class="chat-empty">' + t('chat.empty') + '</div></div>'
+    + '<div class="chat-input-bar">'
+    + '<input type="text" id="chatInput" placeholder="' + t('chat.placeholder') + '" onkeydown="if(event.key===\'Enter\')sendChat(' + matchId + ')">'
+    + '<button onclick="sendChat(' + matchId + ')"><i class="fas fa-paper-plane"></i></button></div>';
+  showAppSection('chat');
+  loadChatMessages(matchId);
+  chatPollTimer = setInterval(function() { loadChatMessages(matchId); }, 3000);
+}
+
+function loadChatMessages(matchId) {
+  var user = getUser();
+  if (!user) return;
+  fetch('api/chat.php?user_id=' + user.id + '&match_id=' + matchId + '&token=' + localStorage.getItem('fm_token') + '&after=' + chatLastId)
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    if (!res.messages || res.messages.length === 0) return;
+    var box = document.getElementById('chatMessages');
+    if (!box) return;
+    var empty = box.querySelector('.chat-empty');
+    if (empty) empty.remove();
+    res.messages.forEach(function(m) {
+      chatLastId = Math.max(chatLastId, parseInt(m.id));
+      var cls = parseInt(m.sender_id) === parseInt(user.id) ? 'mine' : 'theirs';
+      var time = m.created_at ? m.created_at.substring(11, 16) : '';
+      var div = document.createElement('div');
+      div.className = 'chat-bubble ' + cls;
+      div.innerHTML = m.message + '<span class="chat-time">' + time + '</span>';
+      box.appendChild(div);
+    });
+    box.scrollTop = box.scrollHeight;
+  })
+  .catch(function() {});
+}
+
+function sendChat(matchId) {
+  var input = document.getElementById('chatInput');
+  if (!input) return;
+  var msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  var user = getUser();
+  if (!user) return;
+  fetch('api/chat.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user_id: user.id, match_id: matchId, message: msg, token: localStorage.getItem('fm_token') })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    if (res.success) { loadChatMessages(matchId); }
+  })
+  .catch(function() {});
 }

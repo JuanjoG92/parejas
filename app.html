@@ -47,6 +47,47 @@
 
       <!-- Discover Section -->
       <div id="section-discover" class="app-section active">
+        <div class="discover-filters" id="discoverFilters">
+          <select id="filterCountry" onchange="applyFilters()">
+            <option value="" data-i18n="filter.allCountries">Todos los países</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Bolivia">Bolivia</option>
+            <option value="Brasil">Brasil</option>
+            <option value="Chile">Chile</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Costa Rica">Costa Rica</option>
+            <option value="Ecuador">Ecuador</option>
+            <option value="El Salvador">El Salvador</option>
+            <option value="España">España</option>
+            <option value="Estados Unidos">Estados Unidos</option>
+            <option value="Guatemala">Guatemala</option>
+            <option value="Honduras">Honduras</option>
+            <option value="México">México</option>
+            <option value="Nicaragua">Nicaragua</option>
+            <option value="Panamá">Panamá</option>
+            <option value="Paraguay">Paraguay</option>
+            <option value="Perú">Perú</option>
+            <option value="Puerto Rico">Puerto Rico</option>
+            <option value="Rep. Dominicana">Rep. Dominicana</option>
+            <option value="Uruguay">Uruguay</option>
+            <option value="Venezuela">Venezuela</option>
+          </select>
+          <input type="number" id="filterAgeMin" placeholder="Edad mín" min="18" max="99" style="width:75px" onchange="applyFilters()" data-i18n-placeholder="filter.ageMin">
+          <input type="number" id="filterAgeMax" placeholder="Edad máx" min="18" max="99" style="width:75px" onchange="applyFilters()" data-i18n-placeholder="filter.ageMax">
+          <select id="filterDenom" onchange="applyFilters()">
+            <option value="" data-i18n="filter.allDenoms">Todas</option>
+            <option value="Evangélica">Evangélica</option>
+            <option value="Católica">Católica</option>
+            <option value="Pentecostal">Pentecostal</option>
+            <option value="Bautista">Bautista</option>
+            <option value="Adventista">Adventista</option>
+            <option value="Metodista">Metodista</option>
+            <option value="Presbiteriana">Presbiteriana</option>
+            <option value="Anglicana">Anglicana</option>
+            <option value="Luterana">Luterana</option>
+            <option value="No denominacional">No denominacional</option>
+          </select>
+        </div>
         <div class="discover-container" id="discoverCard">
           <div class="discover-empty"><i class="fas fa-spinner fa-spin"></i><p>Cargando...</p></div>
         </div>
@@ -58,11 +99,22 @@
         <div class="matches-grid" id="matchesGrid"></div>
       </div>
 
+      <!-- Chat Section -->
+      <div id="section-chat" class="app-section">
+        <div class="chat-container" id="chatContainer"></div>
+      </div>
+
       <!-- Profile Section -->
       <div id="section-profile" class="app-section">
         <div class="profile-container">
           <div class="profile-header">
-            <div class="profile-avatar-placeholder"><i class="fas fa-user"></i></div>
+            <div class="photo-upload-wrap" onclick="document.getElementById('photoInput').click()">
+              <img id="profAvatar" class="profile-avatar" src="" alt="" style="display:none">
+              <div id="profAvatarPlaceholder" class="profile-avatar-placeholder"><i class="fas fa-user"></i></div>
+              <div class="photo-upload-btn"><i class="fas fa-camera"></i></div>
+              <input type="file" id="photoInput" accept="image/*" onchange="uploadPhoto(this)">
+            </div>
+            <div id="photoAlert" class="alert" style="margin-top:0.5rem"></div>
             <h2 data-i18n="prof.edit">Editar perfil</h2>
           </div>
           <div class="profile-form">
