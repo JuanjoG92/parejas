@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FaithMeet - Parejas Cristianas</title>
+  <meta name="description" content="Encuentra tu pareja cristiana ideal. Conecta con personas que comparten tu fe, valores y propósito de vida.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <div class="logo-icon"><i class="fas fa-heart"></i></div>
+        <span>Faith<strong>Meet</strong></span>
+      </a>
+      <div class="nav-actions">
+        <div class="lang-switch">
+          <button class="lang-btn active" onclick="setLang('es')">ES</button>
+          <button class="lang-btn" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" onclick="setLang('pt')">PT</button>
+        </div>
+        <a href="login.html" class="btn btn-ghost" data-i18n="nav.login">Iniciar Sesión</a>
+        <a href="register.html" class="btn btn-primary" data-i18n="nav.register">Registrarse</a>
+      </div>
+      <button class="nav-toggle" onclick="document.querySelector('.nav-actions').classList.toggle('open')">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <div class="hero-text">
+        <div class="hero-badge"><i class="fas fa-cross"></i> <span data-i18n="hero.badge">Comunidad cristiana</span></div>
+        <h1 data-i18n="hero.title">Encuentra a quien comparta tu <span class="accent-text">fe y tu corazón</span></h1>
+        <p data-i18n="hero.desc">Conecta con personas cristianas que buscan una relación seria, basada en valores, fe y propósito. Porque el amor verdadero empieza en Dios.</p>
+        <div class="hero-ctas">
+          <a href="register.html" class="btn btn-primary btn-lg"><i class="fas fa-heart"></i> <span data-i18n="hero.cta">Crear mi perfil gratis</span></a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">5,000+</span><span class="stat-label" data-i18n="hero.members">Miembros activos</span></div>
+          <div class="stat"><span class="stat-num">30+</span><span class="stat-label" data-i18n="hero.countries">Países</span></div>
+          <div class="stat"><span class="stat-num">100%</span><span class="stat-label" data-i18n="hero.free">Gratis</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="mock-card">
+              <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400&h=500&fit=crop" alt="">
+              <div class="mock-info">
+                <h3>María, 28</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Buenos Aires, Argentina</p>
+                <p><i class="fas fa-church"></i> Evangélica</p>
+              </div>
+            </div>
+            <div class="mock-actions">
+              <button class="mock-btn pass"><i class="fas fa-times"></i></button>
+              <button class="mock-btn like"><i class="fas fa-heart"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge" data-i18n="how.badge">Así de fácil</span>
+        <h2 data-i18n="how.title">¿Cómo funciona?</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-icon"><i class="fas fa-user-plus"></i></div>
+          <h3 data-i18n="how.s1t">Creá tu perfil</h3>
+          <p data-i18n="how.s1d">Registrate gratis, contá sobre vos, tu fe y qué buscás en una pareja.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-icon"><i class="fas fa-search-heart"></i></div>
+          <h3 data-i18n="how.s2t">Descubrí personas</h3>
+          <p data-i18n="how.s2d">Explorá perfiles de cristianos cerca tuyo o en todo el mundo.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-icon"><i class="fas fa-comments"></i></div>
+          <h3 data-i18n="how.s3t">Conectá y conversá</h3>
+          <p data-i18n="how.s3d">Cuando ambos se gustan, ¡es un match! Empezá a conversar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section section-alt" id="values">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge" data-i18n="val.badge">Nuestros valores</span>
+        <h2 data-i18n="val.title">Una comunidad basada en la fe</h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-pray"></i></div>
+          <h3 data-i18n="val.v1t">Fe como fundamento</h3>
+          <p data-i18n="val.v1d">Todos nuestros miembros comparten la fe cristiana como base de su vida y relaciones.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-shield-heart"></i></div>
+          <h3 data-i18n="val.v2t">Relaciones serias</h3>
+          <p data-i18n="val.v2d">Aquí se buscan relaciones con propósito, no encuentros casuales. Amor que perdura.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-earth-americas"></i></div>
+          <h3 data-i18n="val.v3t">Comunidad global</h3>
+          <p data-i18n="val.v3d">Cristianos de más de 30 países. Encontrá a alguien cerca o al otro lado del mundo.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-lock"></i></div>
+          <h3 data-i18n="val.v4t">Seguro y privado</h3>
+          <p data-i18n="val.v4d">Tu información está protegida. Vos decidís qué compartir y con quién.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verse -->
+  <section class="section verse-section">
+    <div class="container">
+      <blockquote class="verse-quote">
+        <p>"<span data-i18n="verse.text">No es bueno que el hombre esté solo; le haré ayuda idónea para él.</span>"</p>
+        <cite>— Génesis 2:18</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <h2 data-i18n="cta.title">Tu historia de amor puede empezar hoy</h2>
+      <p data-i18n="cta.desc">Miles de cristianos ya encontraron su pareja. ¿Y vos?</p>
+      <a href="register.html" class="btn btn-primary btn-lg"><i class="fas fa-heart"></i> <span data-i18n="cta.btn">Registrarme gratis</span></a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="nav-brand">
+          <div class="logo-icon"><i class="fas fa-heart"></i></div>
+          <span>Faith<strong>Meet</strong></span>
+        </div>
+        <p data-i18n="footer.desc">Conectando corazones cristianos alrededor del mundo.</p>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2025 FaithMeet. <span data-i18n="footer.rights">Todos los derechos reservados.</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

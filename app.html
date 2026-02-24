@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FaithMeet</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="app.html" class="nav-brand">
+        <div class="logo-icon"><i class="fas fa-heart"></i></div>
+        <span>Faith<strong>Meet</strong></span>
+      </a>
+      <div class="nav-actions" style="display:flex">
+        <div class="lang-switch">
+          <button class="lang-btn active" onclick="setLang('es')">ES</button>
+          <button class="lang-btn" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" onclick="setLang('pt')">PT</button>
+        </div>
+        <button class="btn btn-ghost" onclick="logout()" data-i18n="app.logout">Salir</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <button class="app-nav-btn active" data-section="discover" onclick="showAppSection('discover')">
+        <i class="fas fa-compass"></i><span data-i18n="app.discover">Descubrir</span>
+      </button>
+      <button class="app-nav-btn" data-section="matches" onclick="showAppSection('matches')">
+        <i class="fas fa-heart"></i><span data-i18n="app.matches">Matches</span>
+      </button>
+      <button class="app-nav-btn" data-section="profile" onclick="showAppSection('profile')">
+        <i class="fas fa-user"></i><span data-i18n="app.profile">Perfil</span>
+      </button>
+    </aside>
+
+    <!-- Main content -->
+    <main class="app-main">
+
+      <!-- Discover Section -->
+      <div id="section-discover" class="app-section active">
+        <div class="discover-container" id="discoverCard">
+          <div class="discover-empty"><i class="fas fa-spinner fa-spin"></i><p>Cargando...</p></div>
+        </div>
+      </div>
+
+      <!-- Matches Section -->
+      <div id="section-matches" class="app-section">
+        <h2 style="text-align:center;margin-bottom:1.5rem" data-i18n="app.matches">Matches</h2>
+        <div class="matches-grid" id="matchesGrid"></div>
+      </div>
+
+      <!-- Profile Section -->
+      <div id="section-profile" class="app-section">
+        <div class="profile-container">
+          <div class="profile-header">
+            <div class="profile-avatar-placeholder"><i class="fas fa-user"></i></div>
+            <h2 data-i18n="prof.edit">Editar perfil</h2>
+          </div>
+          <div class="profile-form">
+            <div id="profAlert" class="alert"></div>
+            <form onsubmit="handleProfileSave(event)">
+              <div class="form-group">
+                <label data-i18n="reg.name">Nombre</label>
+                <input type="text" id="profName" required>
+              </div>
+              <div class="form-group">
+                <label data-i18n="reg.email">Email</label>
+                <input type="email" id="profEmail" disabled>
+              </div>
+              <div class="form-group">
+                <label data-i18n="reg.country">País</label>
+                <select id="profCountry">
+                  <option value="Argentina">Argentina</option>
+                  <option value="Bolivia">Bolivia</option>
+                  <option value="Brasil">Brasil</option>
+                  <option value="Chile">Chile</option>
+                  <option value="Colombia">Colombia</option>
+                  <option value="Costa Rica">Costa Rica</option>
+                  <option value="Ecuador">Ecuador</option>
+                  <option value="El Salvador">El Salvador</option>
+                  <option value="España">España</option>
+                  <option value="Estados Unidos">Estados Unidos</option>
+                  <option value="Guatemala">Guatemala</option>
+                  <option value="Honduras">Honduras</option>
+                  <option value="México">México</option>
+                  <option value="Nicaragua">Nicaragua</option>
+                  <option value="Panamá">Panamá</option>
+                  <option value="Paraguay">Paraguay</option>
+                  <option value="Perú">Perú</option>
+                  <option value="Puerto Rico">Puerto Rico</option>
+                  <option value="Rep. Dominicana">Rep. Dominicana</option>
+                  <option value="Uruguay">Uruguay</option>
+                  <option value="Venezuela">Venezuela</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="reg.denomination">Denominación</label>
+                <select id="profDenom">
+                  <option value="Evangélica">Evangélica</option>
+                  <option value="Católica">Católica</option>
+                  <option value="Pentecostal">Pentecostal</option>
+                  <option value="Bautista">Bautista</option>
+                  <option value="Adventista">Adventista</option>
+                  <option value="Metodista">Metodista</option>
+                  <option value="Presbiteriana">Presbiteriana</option>
+                  <option value="Anglicana">Anglicana</option>
+                  <option value="Luterana">Luterana</option>
+                  <option value="No denominacional">No denominacional</option>
+                  <option value="Otra">Otra</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="prof.bio">Sobre mí</label>
+                <textarea id="profBio" rows="3" placeholder="Contá algo sobre vos..."></textarea>
+              </div>
+              <div class="form-group">
+                <label data-i18n="prof.lookingFor">Qué busco</label>
+                <textarea id="profLooking" rows="2" placeholder="Qué buscás en una pareja..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center" data-i18n="prof.save">Guardar cambios</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Match Overlay -->
+  <div id="matchOverlay" class="match-overlay"></div>
+
+  <script src="js/app.js"></script>
+  <script>
+    if (!getUser()) { window.location.href = 'login.html'; }
+    else { showAppSection('discover'); }
+  </script>
+</body>
+</html>
