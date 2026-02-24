@@ -1,0 +1,22 @@
+<Project>
+  <PropertyGroup>
+    <DefaultTargets>Build</DefaultTargets>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="index.html" />
+    <Content Include="login.html" />
+    <Content Include="register.html" />
+    <Content Include="app.html" />
+    <Content Include="css\app.css" />
+    <Content Include="js\app.js" />
+    <Content Include="api\init-db.php" />
+    <Content Include="api\auth.php" />
+    <Content Include="api\discover.php" />
+    <Content Include="api\like.php" />
+    <Content Include="api\matches.php" />
+    <Content Include="api\profile.php" />
+    <Content Include="deploy\nginx-parejas.conf" />
+    <Content Include="deploy\setup-vps.sh" />
+    <Content Include=".github\copilot-instructions.md" />
+  </ItemGroup>
+</Project>
