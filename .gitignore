@@ -2,3 +2,5 @@ data/*.db
 data/*.db-journal
 uploads/*
 !uploads/.gitkeep
+
+.vs/

@@ -1,4 +1,4 @@
-// ===== FaithMeet - Main JS =====
+﻿// ===== FaithMeet - Main JS =====
 
 // ===== i18n =====
 var L = {
@@ -135,44 +135,63 @@ function requireAuth() {
 // ===== Register =====
 function handleRegister(e) {
   e.preventDefault();
-  var form = e.target;
-  var data = {
-    name: form.name.value.trim(),
-    email: form.email.value.trim(),
-    password: form.password.value,
-    age: parseInt(form.age.value),
-    gender: form.gender.value,
-    country: form.country.value,
-    denomination: form.denomination.value
-  };
-  if (form.password.value !== form.confirm.value) {
-    showAlert('regAlert', 'Las contraseñas no coinciden', 'error'); return;
-  }
-  var btn = form.querySelector('button[type=submit]');
-  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-  fetch('api/auth.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'register', ...data })
-  })
-  .then(function(r) {
-    if (!r.ok) { throw new Error('HTTP ' + r.status); }
-    return r.text();
-  })
-  .then(function(txt) {
-    console.log('Register response:', txt);
-    var res;
-    try { res = JSON.parse(txt); } catch(e) { showAlert('regAlert', 'Server error: ' + txt.substring(0,200), 'error'); return; }
-    btn.disabled = false; btn.textContent = t('reg.btn');
-    if (res.success) {
-      setUser(res.user);
-      localStorage.setItem('fm_token', res.token);
-      window.location.href = 'app.html';
-    } else {
-      showAlert('regAlert', res.error || 'Error', 'error');
+  try {
+    var form = e.target;
+    var fd = new FormData(form);
+    var password = fd.get('password') || '';
+    var confirm = fd.get('confirm') || '';
+    if (password !== confirm) {
+      showAlert('regAlert', t('reg.noMatch') || 'Las contrasenas no coinciden', 'error');
+      return;
     }
-  })
-  .catch(function(err) { btn.disabled = false; btn.textContent = t('reg.btn'); showAlert('regAlert', 'Error: ' + err.message, 'error'); });
+    var data = {
+      action: 'register',
+      name: (fd.get('name') || '').trim(),
+      email: (fd.get('email') || '').trim(),
+      password: password,
+      age: parseInt(fd.get('age')) || 0,
+      gender: fd.get('gender') || '',
+      country: fd.get('country') || '',
+      denomination: fd.get('denomination') || ''
+    };
+    var btn = form.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    fetch('api/auth.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(function(r) {
+      if (!r.ok) { throw new Error('HTTP ' + r.status); }
+      return r.text();
+    })
+    .then(function(txt) {
+      console.log('Register response:', txt);
+      var res;
+      try { res = JSON.parse(txt); } catch(parseErr) {
+        showAlert('regAlert', 'Server error: ' + txt.substring(0, 200), 'error');
+        btn.disabled = false; btn.textContent = t('reg.btn');
+        return;
+      }
+      btn.disabled = false; btn.textContent = t('reg.btn');
+      if (res.success) {
+        setUser(res.user);
+        localStorage.setItem('fm_token', res.token);
+        window.location.href = 'app.html';
+      } else {
+        showAlert('regAlert', res.error || 'Error', 'error');
+      }
+    })
+    .catch(function(err) {
+      console.error('Register fetch error:', err);
+      if (btn) { btn.disabled = false; btn.textContent = t('reg.btn'); }
+      showAlert('regAlert', 'Error: ' + err.message, 'error');
+    });
+  } catch(ex) {
+    console.error('Register JS error:', ex);
+    showAlert('regAlert', 'Error: ' + ex.message, 'error');
+  }
 }
 
 // ===== Login =====
